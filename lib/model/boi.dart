@@ -1,33 +1,21 @@
 class Boi {
-  int id; //
-  int idArea;
-  String etiqueta;
+  String brinco;
   double peso;
-  bool morto; 
 
   Boi({
-    required this.id,
-    required this.idArea,
-    required this.etiqueta,
+    required this.brinco,
     required this.peso,
-    required this.morto,
   });
 
   factory Boi.fromMap(Map<String, dynamic> json) => Boi(
-        id: json["id"],
-        idArea: json["idArea"],
-        etiqueta: json["etiqueta"],
+        brinco: json["brinco"],
         peso: json["peso"],
-        morto: json["morto"] == 0 ? true : false,
       );
 
   Map<String, dynamic> toMap() {
     return {
-      "id": id,
-      "idArea": idArea,
-      "etiqueta": etiqueta,
+      "brinco": brinco,
       "peso": peso,
-      "morto": morto ? 0 : 1,
     };
   }
 }

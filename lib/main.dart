@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:vetboj/databasehelper.dart';
+// import 'package:vetboj/databasehelper.dart';
 import 'package:vetboj/model/area.dart';
+import 'package:vetboj/paginaacoes.dart';
+import 'package:vetboj/paginaboi.dart';
+import 'model/boi.dart';
+
+List<Area> listaAreas = [];
+List<Boi> listaBoi = [];
 
 void main() {
   runApp(const MyApp());
@@ -18,6 +24,11 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.green,
       ),
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      routes: {
+        '/main': (context) => const MyApp(),
+        '/boi': (context) => PaginaBoi(listaAreas),
+        '/acoes': (context) => PaginaAcoes(listaBoi, listaAreas)
+      },
     );
   }
 }
@@ -35,8 +46,6 @@ class _MyHomePageState extends State<MyHomePage> {
   late final TextEditingController _nome;
   late final TextEditingController _maxGado;
   late final TextEditingController _gmd;
-
-  List<Area> listaAreas = [];
 
   void criarNovaArea(String maxGado, String nome, String gmd) {
     Area a = Area(
@@ -72,7 +81,10 @@ class _MyHomePageState extends State<MyHomePage> {
         centerTitle: true,
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.popAndPushNamed(context, '/boi',
+                  arguments: {"list": listaAreas});
+            },
             icon: const Icon(Icons.arrow_forward_rounded),
           ),
         ],
@@ -92,8 +104,12 @@ class _MyHomePageState extends State<MyHomePage> {
                 padding: const EdgeInsets.all(2),
                 itemCount: listaAreas.length,
                 itemBuilder: (context, index) {
-                  return ListTile(
-                    title: Text("Area ${listaAreas[index].nome}"),
+                  return Card(
+                    elevation: 1.0,
+                    child: ListTile(
+                      leading: const Icon(Icons.agriculture_sharp),
+                      title: Text("Area ${listaAreas[index].nome}"),
+                    ),
                   );
                 },
                 separatorBuilder: (BuildContext context, int index) =>
@@ -104,6 +120,7 @@ class _MyHomePageState extends State<MyHomePage> {
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
         onPressed: () {
+          // Resetando as strings que ficam nos controllers
           _gmd.text = '';
           _maxGado.text = '';
           _nome.text = '';
