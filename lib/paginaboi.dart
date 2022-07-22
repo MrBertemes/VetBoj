@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'model/area.dart';
 import 'model/boi.dart';
-
-List<Boi> listaBois = [];
+import 'main.dart';
 
 class PaginaBoi extends StatefulWidget {
-  const PaginaBoi(List<Area> list);
+  const PaginaBoi();
 
   @override
   State<PaginaBoi> createState() => _PaginaBoiState();
@@ -17,7 +16,24 @@ class _PaginaBoiState extends State<PaginaBoi> {
 
   criarNovoBoi(String brinco, String peso) {
     Boi boi = Boi(brinco: brinco, peso: double.parse(peso));
-    listaBois.add(boi);
+    listaBoisBrinco.add(brinco);
+    setState(() {
+      listaBois.add(boi);
+    });
+  }
+
+  @override
+  void initState() {
+    _brinco = TextEditingController();
+    _peso = TextEditingController();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _brinco.dispose();
+    _peso.dispose();
+    super.dispose();
   }
 
   @override
@@ -42,21 +58,40 @@ class _PaginaBoiState extends State<PaginaBoi> {
           ),
         ],
         title: const Text(
-          "VetBoj",
+          "Gado",
           style: TextStyle(
             fontFamily: 'Opensans',
             fontWeight: FontWeight.bold,
           ),
         ),
       ),
-      body: 
-      const Center(
-        child: Text('A'),
+      body: Container(
+        alignment: Alignment.center,
+        margin: const EdgeInsets.all(8.0),
+        child: listaBois.isNotEmpty
+            ? ListView.separated(
+                padding: const EdgeInsets.all(2),
+                itemCount: listaBois.length,
+                itemBuilder: (context, index) {
+                  return Card(
+                    elevation: 1.0,
+                    child: ListTile(
+                      leading: const Icon(Icons.arrow_right),
+                      title: Text("Boi: ${listaBois[index].brinco}"),
+                    ),
+                  );
+                },
+                separatorBuilder: (BuildContext context, int index) =>
+                    const Divider(),
+              )
+            : const Text('Não há bois cadastrados'),
       ),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
         onPressed: () {
           // Resetando as strings que ficam nos controllers
+          _brinco.text = '';
+          _peso.text = '';
           showDialog(
             context: context,
             builder: (BuildContext context) {

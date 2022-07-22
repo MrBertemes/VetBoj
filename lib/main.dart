@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
-// import 'package:vetboj/databasehelper.dart';
 import 'package:vetboj/model/area.dart';
 import 'package:vetboj/paginaacoes.dart';
 import 'package:vetboj/paginaboi.dart';
+import 'model/acao.dart';
 import 'model/boi.dart';
+// import 'package:vetboj/databasehelper.dart';
 
 List<Area> listaAreas = [];
-List<Boi> listaBoi = [];
+List<String> listaAreasNome = [];
+List<Boi> listaBois = [];
+List<String> listaBoisBrinco = [];
+List<Acao> listaAcoes = [];
 
 void main() {
   runApp(const MyApp());
@@ -15,7 +19,6 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -26,8 +29,8 @@ class MyApp extends StatelessWidget {
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
       routes: {
         '/main': (context) => const MyApp(),
-        '/boi': (context) => PaginaBoi(listaAreas),
-        '/acoes': (context) => PaginaAcoes(listaBoi, listaAreas)
+        '/boi': (context) => const PaginaBoi(),
+        '/acoes': (context) => const PaginaAcoes()
       },
     );
   }
@@ -53,6 +56,7 @@ class _MyHomePageState extends State<MyHomePage> {
       nome: nome,
       gmd: double.parse(gmd),
     );
+    listaAreasNome.add(nome);
     setState(() {
       listaAreas.add(a);
     });
@@ -89,7 +93,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ],
         title: const Text(
-          "VetBoj",
+          "Áreas",
           style: TextStyle(
             fontFamily: 'Opensans',
             fontWeight: FontWeight.bold,
@@ -115,7 +119,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 separatorBuilder: (BuildContext context, int index) =>
                     const Divider(),
               )
-            : const Text('Sem áreas cadastradas'),
+            : const Text('Não há áreas cadastradas'),
       ),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
