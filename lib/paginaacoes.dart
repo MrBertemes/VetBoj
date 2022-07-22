@@ -16,8 +16,16 @@ class _PaginaAcoesState extends State<PaginaAcoes> {
   final _boiEscolhido = ValueNotifier('');
   late final TextEditingController _dias;
 
-  criaAcao(String area, String brinco, String dias) {
+  void criaAcao(String area, String brinco, String dias) {
     int diasInt = int.parse(dias);
+    Area a = buscarArea(
+        area); // Adicionando ao longo da criação da lista de movimentações para reduzir a complexidade do código.
+    // Uma vez que seria O(N^2) para cada lista de escolhido.
+    Boi b = buscarBoi(brinco);
+    a.maxGado =
+        a.maxGado - 1; // Decrementando para limitar a quantidade de gado
+    listaDeAreasEscolhidas.add(a);
+    listaDeBoiEscolhidos.add(b);
     Acao acaoCriada = Acao(area: area, brinco: brinco, dias: diasInt);
     setState(() {
       listaAcoes.add(acaoCriada);
@@ -77,7 +85,7 @@ class _PaginaAcoesState extends State<PaginaAcoes> {
                       leading: const Icon(Icons.arrow_right),
                       title: Text(
                           "Boi ${listaAcoes[index].brinco} em ${listaAcoes[index].area}"),
-                      trailing: Text("Dias: ${listaAcoes[index].dias}"),
+                      subtitle: Text("Dias: ${listaAcoes[index].dias}"),
                     ),
                   );
                 },
@@ -89,6 +97,9 @@ class _PaginaAcoesState extends State<PaginaAcoes> {
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
         onPressed: () {
+          _boiEscolhido.value = '';
+          _areaEscolhida.value = '';
+          _dias.text = '';
           showDialog(
             context: context,
             builder: (BuildContext context) {
@@ -107,8 +118,10 @@ class _PaginaAcoesState extends State<PaginaAcoes> {
                                 return DropdownButton<String>(
                                   hint: const Text("Área"),
                                   value: (value.isEmpty ? null : value),
-                                  onChanged: (escolha) =>
-                                      _areaEscolhida.value = escolha.toString(),
+                                  onChanged: listaAreasNome.isNotEmpty
+                                      ? (escolha) => _areaEscolhida.value =
+                                          escolha.toString()
+                                      : null,
                                   items: listaAreasNome
                                       .map(
                                         (op) => DropdownMenuItem(
@@ -127,8 +140,11 @@ class _PaginaAcoesState extends State<PaginaAcoes> {
                                 return DropdownButton<String>(
                                   hint: const Text("Brinco"),
                                   value: (value.isEmpty ? null : value),
-                                  onChanged: (escolha) =>
-                                      _boiEscolhido.value = escolha.toString(),
+                                  onChanged: podeInserirBoi(
+                                          buscarArea(_areaEscolhida.value))
+                                      ? (escolha) => _boiEscolhido.value =
+                                          escolha.toString()
+                                      : null,
                                   items: listaBoisBrinco
                                       .map(
                                         (op) => DropdownMenuItem(
@@ -177,4 +193,27 @@ class _PaginaAcoesState extends State<PaginaAcoes> {
       ),
     );
   }
+}
+
+dynamic buscarBoi(String brinco) {
+  for (Boi boi in listaBois) {
+    if (boi.brinco == brinco) {
+      return boi;
+    }
+  }
+}
+
+dynamic buscarArea(String nome) {
+  for (Area area in listaAreas) {
+    if (area.nome == nome) {
+      return area;
+    }
+  }
+}
+
+bool podeInserirBoi(Area a) {
+  if (a.maxGado > 0) {
+    return true;
+  }
+  return false;
 }

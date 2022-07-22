@@ -11,6 +11,8 @@ List<String> listaAreasNome = [];
 List<Boi> listaBois = [];
 List<String> listaBoisBrinco = [];
 List<Acao> listaAcoes = [];
+List<Boi> listaDeBoiEscolhidos = [];
+List<Area> listaDeAreasEscolhidas = [];
 
 void main() {
   runApp(const MyApp());
