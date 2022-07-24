@@ -4,10 +4,8 @@ import 'package:vetboj/paginaacoes.dart';
 import 'package:vetboj/paginaboi.dart';
 import 'model/acao.dart';
 import 'model/boi.dart';
-// import 'package:vetboj/databasehelper.dart';
 
 List<Area> listaAreas = [];
-List<String> listaAreasNome = [];
 List<Boi> listaBois = [];
 List<String> listaBoisBrinco = [];
 List<Acao> listaAcoes = [];
@@ -58,7 +56,6 @@ class _MyHomePageState extends State<MyHomePage> {
       nome: nome,
       gmd: double.parse(gmd),
     );
-    listaAreasNome.add(nome);
     setState(() {
       listaAreas.add(a);
     });

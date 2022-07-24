@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:vetboj/main.dart';
 import 'package:vetboj/model/acao.dart';
 import 'model/area.dart';
@@ -22,13 +23,23 @@ class _PaginaAcoesState extends State<PaginaAcoes> {
         area); // Adicionando ao longo da criação da lista de movimentações para reduzir a complexidade do código.
     // Uma vez que seria O(N^2) para cada lista de escolhido.
     Boi b = buscarBoi(brinco);
-    a.maxGado =
-        a.maxGado - 1; // Decrementando para limitar a quantidade de gado
     listaDeAreasEscolhidas.add(a);
     listaDeBoiEscolhidos.add(b);
     Acao acaoCriada = Acao(area: area, brinco: brinco, dias: diasInt);
     setState(() {
-      listaAcoes.add(acaoCriada);
+      if (listaAcoes.isNotEmpty) {
+        if (podeInsereMergeDias(acaoCriada)) {
+          insereMergeDias(acaoCriada);
+        } else {
+          a.maxGado =
+              a.maxGado - 1; // Decrementando para limitar a quantidade de gado
+          listaAcoes.add(acaoCriada);
+        }
+      } else {
+        a.maxGado =
+            a.maxGado - 1; // Decrementando para limitar a quantidade de gado
+        listaAcoes.add(acaoCriada);
+      }
     });
   }
 
@@ -118,11 +129,11 @@ class _PaginaAcoesState extends State<PaginaAcoes> {
                                 return DropdownButton<String>(
                                   hint: const Text("Área"),
                                   value: (value.isEmpty ? null : value),
-                                  onChanged: listaAreasNome.isNotEmpty
+                                  onChanged: areasRestantes.isNotEmpty
                                       ? (escolha) => _areaEscolhida.value =
                                           escolha.toString()
                                       : null,
-                                  items: listaAreasNome
+                                  items: areasRestantes
                                       .map(
                                         (op) => DropdownMenuItem(
                                           value: op,
@@ -140,8 +151,7 @@ class _PaginaAcoesState extends State<PaginaAcoes> {
                                 return DropdownButton<String>(
                                   hint: const Text("Brinco"),
                                   value: (value.isEmpty ? null : value),
-                                  onChanged: podeInserirBoi(
-                                          buscarArea(_areaEscolhida.value))
+                                  onChanged: listaBoisBrinco.isNotEmpty
                                       ? (escolha) => _boiEscolhido.value =
                                           escolha.toString()
                                       : null,
@@ -211,9 +221,36 @@ dynamic buscarArea(String nome) {
   }
 }
 
+bool podeInsereMergeDias(Acao acao) {
+  var ultimaAcao = listaAcoes.last;
+  if (ultimaAcao.brinco == acao.brinco && ultimaAcao.area == acao.area) {
+    return true;
+  }
+
+  return false;
+}
+
+void insereMergeDias(Acao acao) {
+  for (Acao a in listaAcoes) {
+    if (a.brinco == acao.brinco && a.area == acao.area) {
+      a.dias = a.dias + acao.dias;
+    }
+  }
+}
+
 bool podeInserirBoi(Area a) {
   if (a.maxGado > 0) {
     return true;
   }
   return false;
+}
+
+List<String> get areasRestantes {
+  List<String> lst = [];
+  for (var area in listaAreas) {
+    if (area.maxGado > 0) {
+      lst.add(area.nome);
+    }
+  }
+  return lst;
 }
