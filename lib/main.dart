@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:vetboj/model/area.dart';
 import 'package:vetboj/paginaacoes.dart';
 import 'package:vetboj/paginaboi.dart';
+import 'package:vetboj/paginaresultados.dart';
 import 'model/acao.dart';
 import 'model/boi.dart';
 
@@ -30,7 +31,8 @@ class MyApp extends StatelessWidget {
       routes: {
         '/main': (context) => const MyApp(),
         '/boi': (context) => const PaginaBoi(),
-        '/acoes': (context) => const PaginaAcoes()
+        '/acoes': (context) => const PaginaAcoes(),
+        '/resultados':(context) => const PaginaResultados(),
       },
     );
   }

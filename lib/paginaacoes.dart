@@ -28,8 +28,8 @@ class _PaginaAcoesState extends State<PaginaAcoes> {
     Acao acaoCriada = Acao(area: area, brinco: brinco, dias: diasInt);
     setState(() {
       if (listaAcoes.isNotEmpty) {
-        if (podeInsereMergeDias(acaoCriada)) {
-          insereMergeDias(acaoCriada);
+        if (podeInserirMergeDias(acaoCriada)) {
+          inserirMergeDias(acaoCriada);
         } else {
           a.maxGado =
               a.maxGado - 1; // Decrementando para limitar a quantidade de gado
@@ -70,7 +70,12 @@ class _PaginaAcoesState extends State<PaginaAcoes> {
         centerTitle: true,
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: listaAcoes.isNotEmpty
+                ? () {
+                    finalizar();
+                    Navigator.popAndPushNamed(context, '/resultados');
+                  }
+                : null,
             icon: const Icon(Icons.check_circle_rounded),
           ),
         ],
@@ -221,7 +226,7 @@ dynamic buscarArea(String nome) {
   }
 }
 
-bool podeInsereMergeDias(Acao acao) {
+bool podeInserirMergeDias(Acao acao) {
   var ultimaAcao = listaAcoes.last;
   if (ultimaAcao.brinco == acao.brinco && ultimaAcao.area == acao.area) {
     return true;
@@ -230,10 +235,22 @@ bool podeInsereMergeDias(Acao acao) {
   return false;
 }
 
-void insereMergeDias(Acao acao) {
+void inserirMergeDias(Acao acao) {
   for (Acao a in listaAcoes) {
     if (a.brinco == acao.brinco && a.area == acao.area) {
       a.dias = a.dias + acao.dias;
+    }
+  }
+}
+
+void finalizar() {
+  for (var acao in listaAcoes) {
+    Area area = buscarArea(acao.area);
+    double ganhoDias = area.gmd * acao.dias;
+    for (Boi boi in listaBois) {
+      if (acao.brinco == boi.brinco) {
+        boi.peso = boi.peso + ganhoDias;
+      }
     }
   }
 }
