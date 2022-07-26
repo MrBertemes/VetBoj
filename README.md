@@ -4,9 +4,7 @@
 
 Aplicativo para gestão de gado entre áreas
 
-Para rodar em debug mode basta escolher o dispositivo que queiras na IDE e rodar:
-
-```flutter run``` no terminal.
+Para rodar em debug mode basta escolher o dispositivo que queiras na IDE e rodar ```flutter run``` no terminal.
 
 Para usar o aplicativo em produção, basta baixar os realeses para os respectivos dispositivos(Somente adnroid e Linux)
 
