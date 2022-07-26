@@ -1,7 +1,10 @@
+import 'boi.dart';
+
 class Area {
-  int maxGado; 
+  int maxGado;
   String nome;
   double gmd;
+  List<Boi> bois = [];
 
   Area({
     required this.maxGado,
@@ -20,6 +23,7 @@ class Area {
       "maxGado": maxGado,
       "nome": nome,
       "gmd": gmd,
+      "bois":bois,
     };
   }
 }

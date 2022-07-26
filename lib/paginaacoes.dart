@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:vetboj/main.dart';
 import 'package:vetboj/model/acao.dart';
 import 'model/area.dart';
@@ -19,22 +18,18 @@ class _PaginaAcoesState extends State<PaginaAcoes> {
 
   void criaAcao(String area, String brinco, String dias) {
     int diasInt = int.parse(dias);
-    Area a = buscarArea(
-        area); // Adicionando ao longo da criação da lista de movimentações para reduzir a complexidade do código.
-    // Uma vez que seria O(N^2) para cada lista de escolhido.
+    Area a = buscarArea(area);
     Acao acaoCriada = Acao(area: area, brinco: brinco, dias: diasInt);
     setState(() {
       if (listaAcoes.isNotEmpty) {
         if (podeInserirMergeDias(acaoCriada)) {
           inserirMergeDias(acaoCriada);
         } else {
-          a.maxGado =
-              a.maxGado - 1; // Decrementando para limitar a quantidade de gado
+          moveAdicionaBoi(acaoCriada);
           listaAcoes.add(acaoCriada);
         }
       } else {
-        a.maxGado =
-            a.maxGado - 1; // Decrementando para limitar a quantidade de gado
+        moveAdicionaBoi(acaoCriada);
         listaAcoes.add(acaoCriada);
       }
     });
@@ -240,6 +235,34 @@ void inserirMergeDias(Acao acao) {
   }
 }
 
+void moveAdicionaBoi(Acao acao) {
+  for (Area a in listaAreas) {
+    if (acao.area != a.nome && a.bois.isNotEmpty) {
+      // Area diferentes da entrada que podem ter o boi
+      var removeBoi;
+      for (var boi in a.bois) {
+        if (boi.brinco == acao.brinco) {
+          removeBoi=boi;
+        }
+      }
+      a.bois.remove(removeBoi);
+    }
+    if (acao.area == a.nome) {
+      // Adicona direto
+      Boi boi = buscarBoi(acao.brinco);
+      adicionaBoiArea(boi, acao);
+    }
+  }
+}
+
+void adicionaBoiArea(Boi boi, Acao acao) {
+  for (var achada in listaAreas) {
+    if (achada.nome == acao.area) {
+      achada.bois.add(boi);
+    }
+  }
+}
+
 void finalizar() {
   for (var acao in listaAcoes) {
     Area area = buscarArea(acao.area);
@@ -252,17 +275,10 @@ void finalizar() {
   }
 }
 
-bool podeInserirBoi(Area a) {
-  if (a.maxGado > 0) {
-    return true;
-  }
-  return false;
-}
-
 List<String> get areasRestantes {
   List<String> lst = [];
   for (var area in listaAreas) {
-    if (area.maxGado > 0) {
+    if (area.bois.length < area.maxGado) {
       lst.add(area.nome);
     }
   }

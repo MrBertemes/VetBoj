@@ -39,7 +39,7 @@ class PaginaResultados extends StatelessWidget {
                       leading: const Icon(Icons.arrow_right),
                       title: Text(
                           "Boi ${listaBois[index].brinco}"),
-                      subtitle: Text("Peso: ${listaBois[index].peso} Kg"),
+                      subtitle: Text("Peso: ${listaBois[index].peso.toStringAsFixed(2)} Kg"),
                     ),
                   );
                 },

@@ -77,7 +77,8 @@ class _PaginaBoiState extends State<PaginaBoi> {
                     elevation: 1.0,
                     child: ListTile(
                       leading: const Icon(Icons.arrow_right),
-                      title: Text("Boi: ${listaBois[index].brinco}"),
+                      title: Text("${listaBois[index].brinco}"),
+                      subtitle: Text("${listaBois[index].peso.toStringAsFixed(2)} Kg"),
                     ),
                   );
                 },

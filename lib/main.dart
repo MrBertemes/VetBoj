@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
         '/main': (context) => const MyApp(),
         '/boi': (context) => const PaginaBoi(),
         '/acoes': (context) => const PaginaAcoes(),
-        '/resultados':(context) => const PaginaResultados(),
+        '/resultados': (context) => const PaginaResultados(),
       },
     );
   }
@@ -113,6 +113,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       leading: const Icon(Icons.agriculture_sharp),
                       title: Text("Area ${listaAreas[index].nome}"),
                       subtitle: Text("GMD: ${listaAreas[index].gmd}"),
+                      trailing: Text("Máx: ${listaAreas[index].maxGado}"),
                     ),
                   );
                 },
