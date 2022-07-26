@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:vetboj/model/area.dart';
 import 'package:vetboj/paginaacoes.dart';
 import 'package:vetboj/paginaboi.dart';
@@ -153,6 +154,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             labelText: 'GMD',
                             icon: Icon(Icons.numbers_outlined),
                           ),
+                          keyboardType: TextInputType.number,
                         ),
                         TextFormField(
                           controller: _maxGado,
@@ -160,6 +162,10 @@ class _MyHomePageState extends State<MyHomePage> {
                             labelText: 'Número máximo de bois',
                             icon: Icon(Icons.agriculture_sharp),
                           ),
+                          keyboardType: TextInputType.number,
+                          inputFormatters: <TextInputFormatter>[
+                            FilteringTextInputFormatter.digitsOnly
+                          ],
                         ),
                       ],
                     ),

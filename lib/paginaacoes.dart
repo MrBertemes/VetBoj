@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:vetboj/main.dart';
 import 'package:vetboj/model/acao.dart';
 import 'model/area.dart';
@@ -169,6 +170,10 @@ class _PaginaAcoesState extends State<PaginaAcoes> {
                             labelText: 'Dias',
                             icon: Icon(Icons.calendar_month_rounded),
                           ),
+                          keyboardType: TextInputType.number,
+                          inputFormatters: <TextInputFormatter>[
+                            FilteringTextInputFormatter.digitsOnly
+                          ],
                         ),
                       ],
                     ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'model/area.dart';
 import 'model/boi.dart';
 import 'main.dart';
@@ -117,6 +118,7 @@ class _PaginaBoiState extends State<PaginaBoi> {
                             labelText: 'Peso inicial',
                             icon: Icon(Icons.monitor_weight_outlined),
                           ),
+                          keyboardType: TextInputType.number,
                         ),
                       ],
                     ),
