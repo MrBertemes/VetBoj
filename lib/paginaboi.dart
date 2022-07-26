@@ -107,14 +107,14 @@ class _PaginaBoiState extends State<PaginaBoi> {
                           controller: _brinco,
                           decoration: const InputDecoration(
                             labelText: 'Código Brinco',
-                            icon: Icon(Icons.account_box),
+                            icon: Icon(Icons.abc),
                           ),
                         ),
                         TextFormField(
                           controller: _peso,
                           decoration: const InputDecoration(
                             labelText: 'Peso inicial',
-                            icon: Icon(Icons.email),
+                            icon: Icon(Icons.monitor_weight_outlined),
                           ),
                         ),
                       ],

@@ -22,9 +22,6 @@ class _PaginaAcoesState extends State<PaginaAcoes> {
     Area a = buscarArea(
         area); // Adicionando ao longo da criação da lista de movimentações para reduzir a complexidade do código.
     // Uma vez que seria O(N^2) para cada lista de escolhido.
-    Boi b = buscarBoi(brinco);
-    listaDeAreasEscolhidas.add(a);
-    listaDeBoiEscolhidos.add(b);
     Acao acaoCriada = Acao(area: area, brinco: brinco, dias: diasInt);
     setState(() {
       if (listaAcoes.isNotEmpty) {

@@ -10,8 +10,6 @@ List<Area> listaAreas = [];
 List<Boi> listaBois = [];
 List<String> listaBoisBrinco = [];
 List<Acao> listaAcoes = [];
-List<Boi> listaDeBoiEscolhidos = [];
-List<Area> listaDeAreasEscolhidas = [];
 
 void main() {
   runApp(const MyApp());
@@ -114,6 +112,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     child: ListTile(
                       leading: const Icon(Icons.agriculture_sharp),
                       title: Text("Area ${listaAreas[index].nome}"),
+                      subtitle: Text("GMD: ${listaAreas[index].gmd}"),
                     ),
                   );
                 },
@@ -144,14 +143,14 @@ class _MyHomePageState extends State<MyHomePage> {
                           controller: _nome,
                           decoration: const InputDecoration(
                             labelText: 'Nome da área',
-                            icon: Icon(Icons.account_box),
+                            icon: Icon(Icons.abc),
                           ),
                         ),
                         TextFormField(
                           controller: _gmd,
                           decoration: const InputDecoration(
                             labelText: 'GMD',
-                            icon: Icon(Icons.email),
+                            icon: Icon(Icons.numbers_outlined),
                           ),
                         ),
                         TextFormField(
